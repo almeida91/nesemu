@@ -1,17 +1,17 @@
 package nesemu.memory;
 
 import nesemu.cpu.Registers;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.MockitoJUnitRunner;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 
-@ExtendWith(MockitoExtension.class)
-class StackTest {
+@RunWith(MockitoJUnitRunner.class)
+public class StackTest {
 
     private static final int INITIAL_SP_ADDRESS = 12;
     private static final int ONE_BYTE_VALUE = 5;
@@ -28,7 +28,7 @@ class StackTest {
     private Stack stack;
 
     @Test
-    void testPush8Bits() {
+    public void testPush8Bits() {
         int decrementedSpAddress = INITIAL_SP_ADDRESS - 1;
 
         when(registers.getSp()).thenReturn(INITIAL_SP_ADDRESS);
@@ -40,7 +40,7 @@ class StackTest {
     }
 
     @Test
-    void testPull8Bits() {
+    public void testPull8Bits() {
         int incrementedSpAddress = INITIAL_SP_ADDRESS + 1;
 
         when(registers.getSp()).thenReturn(INITIAL_SP_ADDRESS);
@@ -54,7 +54,7 @@ class StackTest {
     }
 
     @Test
-    void testPush8BitWhenSpDecrementsAtStackEnding() {
+    public void testPush8BitWhenSpDecrementsAtStackEnding() {
         when(registers.getSp()).thenReturn(STACK_ENDING);
 
         stack.push8Bits(ONE_BYTE_VALUE);
@@ -64,7 +64,7 @@ class StackTest {
     }
 
     @Test
-    void testPull8BitsWhenSpIncrementsAtStackBeginning() {
+    public void testPull8BitsWhenSpIncrementsAtStackBeginning() {
         when(registers.getSp()).thenReturn(STACK_BEGINNING);
         when(memory.read8Bits(STACK_ENDING)).thenReturn(ONE_BYTE_VALUE);
 

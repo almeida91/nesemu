@@ -1,19 +1,20 @@
 package nesemu.memory;
 
 import nesemu.ppu.Ppu;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.MockitoJUnitRunner;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 
-@ExtendWith(MockitoExtension.class)
-class MemoryTest {
+@RunWith(MockitoJUnitRunner.class)
+public class MemoryTest {
 
     public static final int MIRRORED_RAM_BEGINNING = 2048;
+
     @Mock
     private Ppu ppu;
 
@@ -24,7 +25,7 @@ class MemoryTest {
     private Memory memory;
 
     @Test
-    void testRead8BitsFromRam() {
+    public void testRead8BitsFromRam() {
         int address = 10;
         int value = 15;
 
@@ -36,7 +37,7 @@ class MemoryTest {
     }
 
     @Test
-    void testRead8BitsFromMirroredRam() {
+    public void testRead8BitsFromMirroredRam() {
         int address = 10;
         int mirroredAddress = 10 + MIRRORED_RAM_BEGINNING;
         int value = 15;
@@ -49,7 +50,7 @@ class MemoryTest {
     }
 
     @Test
-    void testRead8BitsFromPpu() {
+    public void testRead8BitsFromPpu() {
         int address = 0x2005;
         int value = 15;
 
@@ -61,7 +62,7 @@ class MemoryTest {
     }
 
     @Test
-    void testRead8BitsFromMirroredPpu() {
+    public void testRead8BitsFromMirroredPpu() {
         int address = 0x2000;
         int mirroredAddress = 0x2008;
         int value = 15;
@@ -74,7 +75,7 @@ class MemoryTest {
     }
 
     @Test
-    void testRead8BitsFromMapper() {
+    public void testRead8BitsFromMapper() {
         int address = 0xFF00;
         int value = 15;
 
@@ -86,7 +87,7 @@ class MemoryTest {
     }
 
     @Test
-    void testWrite8BitsToPpu() {
+    public void testWrite8BitsToPpu() {
         int address = 0x2005;
         int value = 15;
 
@@ -96,7 +97,7 @@ class MemoryTest {
     }
 
     @Test
-    void testWrite8BitsToMirroredMirroredPpu() {
+    public void testWrite8BitsToMirroredMirroredPpu() {
         int address = 0x2000;
         int mirroredAddress = 0x2008;
         int value = 15;
@@ -107,7 +108,7 @@ class MemoryTest {
     }
 
     @Test
-    void testWrite8BitsToMapper() {
+    public void testWrite8BitsToMapper() {
         int address = 0xFF00;
         int value = 15;
 
@@ -117,7 +118,7 @@ class MemoryTest {
     }
 
     @Test
-    void testRead16Bits() {
+    public void testRead16Bits() {
         int lowerValue = 0xAA;
         int higherValue = 0xFF;
         int fullValue = 0xFFAA;

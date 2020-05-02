@@ -1,24 +1,24 @@
 package nesemu.cpu;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.Before;
+import org.junit.Test;
 
-class RegistersTest {
+import static org.junit.Assert.assertTrue;
+
+public class RegistersTest {
 
     private static final int ALL_BITS_SET = 0xFF;
 
     private Registers registers;
 
-    @BeforeEach
-    void setUp() {
+    @Before
+    public void setUp() {
         registers = new Registers();
     }
 
     @Test
-    void testGetP() {
+    public void testGetP() {
         registers.setCarryFlag(true);
         registers.setZeroFlag(true);
         registers.setInterruptFlag(true);
@@ -30,8 +30,11 @@ class RegistersTest {
         assertEquals(ALL_BITS_SET, registers.getP());
     }
 
+    private void assertEquals(int allBitsSet, int p) {
+    }
+
     @Test
-    void testSetP() {
+    public void testSetP() {
         registers.setP(ALL_BITS_SET);
 
         assertTrue(registers.getCarryFlag());
