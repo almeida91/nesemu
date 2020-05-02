@@ -4,6 +4,9 @@ import com.google.inject.Inject;
 import lombok.AllArgsConstructor;
 import nesemu.cpu.Registers;
 
+/**
+ * A facade to the {@link Memory} and {@link Registers} classes, to implement the stack push/pull logic.
+ */
 @AllArgsConstructor(onConstructor_ = @Inject)
 public class Stack {
 
@@ -11,11 +14,22 @@ public class Stack {
 
     private Registers registers;
 
+    /**
+     * Pushes the provided byte into the current address on the SP register.
+     * After writing to the memory, it decrements the register by one.
+     *
+     * @param value the value to be pushed to the stack
+     */
     public void push8Bits(int value) {
         memory.write8Bits(registers.getSp(), value);
         registers.setSp(decrementSp());
     }
 
+    /**
+     * Pulls the byte indexed by incrementing the current SP register value by one.
+     *
+     * @return the value on the top of the stack
+     */
     public int pull8Bits() {
         int sp = incrementSp();
         registers.setSp(sp);
@@ -52,6 +66,13 @@ public class Stack {
         push8Bits(value & 0xFF);
     }
 
+    /**
+     * 16-bit version of {@link #push8Bits(int)}.
+     *
+     * Analogue to the {@link #push16Bits(int)} internal procedure, it first pulls the lower byte and then the higher one.
+     *
+     * @return the two bytes on the top of the stack keeping the little endian layout.
+     */
     public int pull16Bits() {
         int value = pull8Bits();
         return (pull8Bits() << 8) | value;
