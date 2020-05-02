@@ -18,6 +18,7 @@ public class BreakTest {
     public static final int PROGRAM_COUNTER_VALUE = 10;
     public static final int INTERRUPT_INSTRUCTION_POINTER = 0xFFFE;
     public static final int INTERRUPT_INSTRUCTION_ADDRESS = 123;
+    private static final Integer STATUS_FLAGS = 0xFF;
 
     @Mock
     private Stack stack;
@@ -34,11 +35,13 @@ public class BreakTest {
     @Test
     public void testRun() {
         when(registers.getPc()).thenReturn(PROGRAM_COUNTER_VALUE);
+        when(registers.getP()).thenReturn(STATUS_FLAGS);
         when(memory.read16Bits(INTERRUPT_INSTRUCTION_POINTER)).thenReturn(INTERRUPT_INSTRUCTION_ADDRESS);
 
         breakInstruction.run(0x00, 0x0800);
 
-        verify(stack, only()).push16Bits(PROGRAM_COUNTER_VALUE);
+        verify(stack, times(1)).push16Bits(PROGRAM_COUNTER_VALUE);
+        verify(stack, times(1)).push8Bits(STATUS_FLAGS);
 
         new RegistersAssertion()
                 .withBreakpointFlag(true)
