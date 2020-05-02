@@ -29,30 +29,30 @@ public class Registers {
      * The A register, this is used by the CPU's ALU to do its operations.
      * It is one byte wide.
      */
-    private int a;
+    private Integer a;
 
     /**
      * The X register, commonly used in combination with an addressing mode.
      */
-    private int x;
+    private Integer x;
 
     /**
      * The Y register, as the same of X, is commonly used in combination with an addressing mode.
      */
-    private int y;
+    private Integer y;
 
     /**
      * The S register, used as the stack pointer.
      * The initial value is the memory address that the stack starts (256).
      */
-    private int sp = 0xFF;
+    private Integer sp = 0xFF;
 
     /**
      * The PC register, used by the CPU as the program counter pointer.
      * It is two-byte wide to be able to address the whole 16-bit address space of the NES.
      * The initial value is where the CPU starts the program by reading from the ROM.
      */
-    private int pc = 0x8000;
+    private Integer pc = 0x8000;
 
     /**
      * The carry flag.
