@@ -1,6 +1,7 @@
 package nesemu.cpu.instructions;
 
 import nesemu.cpu.Instruction;
+import nesemu.cpu.Mnemonic;
 import nesemu.cpu.OpCode;
 
 /**

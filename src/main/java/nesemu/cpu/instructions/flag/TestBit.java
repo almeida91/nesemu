@@ -6,7 +6,7 @@ import nesemu.cpu.AddressingMode;
 import nesemu.cpu.Instruction;
 import nesemu.cpu.OpCode;
 import nesemu.cpu.Registers;
-import nesemu.cpu.instructions.Mnemonic;
+import nesemu.cpu.Mnemonic;
 import nesemu.memory.Memory;
 
 /**

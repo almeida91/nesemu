@@ -1,4 +1,4 @@
-package nesemu.cpu.instructions;
+package nesemu.cpu;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

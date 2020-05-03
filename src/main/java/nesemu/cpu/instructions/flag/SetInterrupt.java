@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import nesemu.cpu.Instruction;
 import nesemu.cpu.OpCode;
 import nesemu.cpu.Registers;
-import nesemu.cpu.instructions.Mnemonic;
+import nesemu.cpu.Mnemonic;
 
 @Mnemonic("SEI")
 @OpCode(code = 0x78)
