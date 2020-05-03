@@ -132,4 +132,14 @@ public class Registers {
         overflowFlag   = (p & 0b01000000) != 0;
         negativeFlag   = (p & 0b10000000) != 0;
     }
+
+    public int incrementPc() {
+        return pc++;
+    }
+
+    public int incrementPcByTwoAddress() {
+        int pc = this.pc;
+        this.pc += 2;
+        return pc;
+    }
 }
