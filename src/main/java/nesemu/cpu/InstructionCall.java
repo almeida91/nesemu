@@ -32,11 +32,18 @@ public class InstructionCall {
 
         instruction.run(opCode, address);
 
-        if (hasCrossPageBoundaryPenalty) {
+        if (hasCrossPageBoundaryPenalty && crossesPageBoundary(address)) {
             return cycles + 1;
         }
 
         return cycles;
+    }
+
+    private boolean crossesPageBoundary(int address) {
+        int pcPage = registers.getPc() / 256;
+        int addressPage = address / 256;
+
+        return pcPage != addressPage;
     }
 
     private int getAddress() {
