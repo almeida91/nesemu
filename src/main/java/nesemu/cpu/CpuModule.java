@@ -42,9 +42,16 @@ public class CpuModule extends AbstractModule {
 
             OpCode[] opCodes = getOpCodes(clazz);
 
+            String mnemonic = getMnemonic(clazz);
+
+            if (mnemonics.contains(mnemonic)) {
+                throw new IllegalArgumentException(String.format("Duplicated %s mnemonic", mnemonic));
+            }
+
+            mnemonics.add(mnemonic);
+
             for (OpCode opCode : opCodes) {
                 AddressingMode addressingMode = opCode.mode();
-                String mnemonic = getMnemonic(clazz);
                 int opCodeNumber = opCode.code();
                 int numberOfCycles = opCode.cycles();
                 boolean hasCrossPageBoundaryPenalty = opCode.crossBoundaryPenalty();
@@ -56,12 +63,7 @@ public class CpuModule extends AbstractModule {
                     throw new IllegalArgumentException(String.format("Duplicated %d opcode", opCodeNumber));
                 }
 
-                if (mnemonics.contains(mnemonic)) {
-                    throw new IllegalArgumentException(String.format("Duplicated %s mnemonic", mnemonic));
-                }
-
                 instructionCallMap.put(opCodeNumber, instructionCall);
-                mnemonics.add(mnemonic);
             }
         }
 
