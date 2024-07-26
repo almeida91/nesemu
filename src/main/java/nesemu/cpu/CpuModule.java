@@ -11,6 +11,7 @@ import nesemu.memory.Memory;
 import java.io.File;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -34,6 +35,7 @@ public class CpuModule extends AbstractModule {
     @Inject
     public Map<Integer, InstructionCall> provideInstructionCallMap(Set<Instruction> instructions, Registers registers, Memory memory) {
         Map<Integer, InstructionCall> instructionCallMap = new HashMap<>();
+        Set<String> mnemonics = new HashSet<>();
 
         for (Instruction instruction : instructions) {
             Class<? extends Instruction> clazz = instruction.getClass();
@@ -50,7 +52,16 @@ public class CpuModule extends AbstractModule {
                 InstructionCall instructionCall =
                         new InstructionCall(registers, memory, instruction, addressingMode, mnemonic, opCodeNumber, numberOfCycles, hasCrossPageBoundaryPenalty);
 
+                if (instructionCallMap.containsKey(opCodeNumber)) {
+                    throw new IllegalArgumentException(String.format("Duplicated %d opcode", opCodeNumber));
+                }
+
+                if (mnemonics.contains(mnemonic)) {
+                    throw new IllegalArgumentException(String.format("Duplicated %s mnemonic", mnemonic));
+                }
+
                 instructionCallMap.put(opCodeNumber, instructionCall);
+                mnemonics.add(mnemonic);
             }
         }
 

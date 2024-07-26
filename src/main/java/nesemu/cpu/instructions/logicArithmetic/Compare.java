@@ -25,9 +25,12 @@ public class Compare implements Instruction {
 
     private Memory memory;
 
-
     @Override
     public void run(int opCode, int address) {
+        int value = registers.getA() - memory.read8Bits(address);
 
+        registers.setCarryFlag(registers.getA() >= memory.read8Bits(address));
+        registers.setNegativeFlag((value & 0x80) != 0);
+        registers.setZeroFlag((value & 0xFF) == 0);
     }
 }
