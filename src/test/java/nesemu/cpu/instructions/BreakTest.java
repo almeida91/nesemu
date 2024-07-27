@@ -45,6 +45,7 @@ public class BreakTest {
 
         new RegistersAssertion()
                 .withBreakpointFlag(true)
+                .withInterruptFlag(true)
                 .withPc(INTERRUPT_INSTRUCTION_ADDRESS)
                 .doAssertion(registers);
     }
