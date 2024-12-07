@@ -41,7 +41,6 @@ public class RotateRight implements Instruction {
         else {
             value = memory.read8Bits(address);
 
-
             registers.setCarryFlag((value & 1) == 1);
 
             value >>= 1;
