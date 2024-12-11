@@ -47,6 +47,8 @@ public class Memory {
 
     private int[] ram;
 
+    private int openBusValue;
+
     @Inject
     public Memory(Ppu ppu, Mapper mapper) {
         this.ppu = ppu;
@@ -62,27 +64,32 @@ public class Memory {
      * @return the value at the provided memory address
      */
     public int read8Bits(int address) {
+        int value;
+
         if (address <= RAM_UPPER_BOUND) {
-            return ram[address];
+            value = ram[address];
         } else if (address <= MIRRORED_RAM_UPPER_BOUND) {
-            return ram[address & RAM_UPPER_BOUND];
+            value = ram[address & RAM_UPPER_BOUND];
         } else if (address < PPU_UPPER_BOUND) {
-            return ppu.readMemory(address);
+            value = ppu.readMemory(address);
         } else if (address < MIRRORED_PPU_UPPER_BOUND) {
-            return ppu.readMemory(address & PPU_UPPER_BOUND);
+            value = ppu.readMemory(address & PPU_UPPER_BOUND);
         } else if (address < APU_IO_UPPER_BOUND) {
             // TODO: IO registers / apu registers
-            return 0;
+            value = 0;
         } else if (address < APU_IO_TEST_MODE_ADDRESSES) {
             // TODO: IO/APU registers test mode
-            return 0;
+            value = 0;
         } else if (address <= MAPPER_UPPER_BOUND) {
-            return mapper.read(address);
+            value = readFromMapper(address);
         } else {
             // TODO: exception?
-            // need to check the behavior of such access, might now even be possible as the NES system only address 16 bits.
-            return 0;
+            // need to check the behavior of such access, might not even be possible as the NES system only address 16 bits.
+            value = 0;
         }
+
+        openBusValue = value;
+        return value;
     }
 
     /**
@@ -121,5 +128,13 @@ public class Memory {
         } else if (address <= MAPPER_UPPER_BOUND) {
             mapper.write(address, value);
         }
+    }
+
+    private int readFromMapper(int address) {
+        if (address < mapper.getLowerBound()) {
+            return openBusValue;
+        }
+
+        return mapper.read(address);
     }
 }

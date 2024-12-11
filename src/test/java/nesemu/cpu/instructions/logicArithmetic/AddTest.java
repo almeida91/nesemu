@@ -30,7 +30,7 @@ public class AddTest {
 
     @Test
     public void testWithTwoPositiveValues() {
-        when(memory.read8Bits(ADDRESS)).thenReturn(MEMORY_VALUE);
+        when(memory.read8Bits(ADDRESS)).thenReturn(MEMORY_VALUE);   
         when(registers.getA()).thenReturn(REGISTER_VALUE);
 
         addInstruction.run(0, ADDRESS);

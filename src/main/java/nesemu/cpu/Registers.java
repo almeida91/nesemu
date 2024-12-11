@@ -55,7 +55,7 @@ public class Registers {
      * It is two-byte wide to be able to address the whole 16-bit address space of the NES.
      * The initial value is where the CPU starts the program by reading from the ROM.
      */
-    private Integer pc = 0x8000;
+    private Integer pc = 0xFFFC;
 
     /**
      * The carry flag.

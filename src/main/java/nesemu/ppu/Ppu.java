@@ -9,4 +9,8 @@ public class Ppu {
     public void writeMemory(int address, int value) {
 
     }
+
+    public void cycle() {
+
+    }
 }

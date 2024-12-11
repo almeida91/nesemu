@@ -95,15 +95,15 @@ public class CpuModule extends AbstractModule {
 
     private OpCode[] getOpCodes(Class<? extends Instruction> clazz) {
         if (clazz.isAnnotationPresent(OpCodes.class)) {
-            return ((OpCodes) clazz.getAnnotation(OpCodes.class)).value();
+            return clazz.getAnnotation(OpCodes.class).value();
         } else if (clazz.isAnnotationPresent(OpCode.class)) {
-            return new OpCode[]{(OpCode) clazz.getAnnotation(OpCode.class)};
+            return new OpCode[]{clazz.getAnnotation(OpCode.class)};
         }
 
         return new OpCode[0];
     }
 
     private String getMnemonic(Class<? extends Instruction> clazz) {
-        return ((Mnemonic) clazz.getAnnotation(Mnemonic.class)).value();
+        return clazz.getAnnotation(Mnemonic.class).value();
     }
 }
