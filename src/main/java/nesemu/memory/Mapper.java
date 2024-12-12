@@ -2,11 +2,19 @@ package nesemu.memory;
 
 public interface Mapper {
 
-    void write(int address, int value);
+    void writeCpu(int address, int value);
 
-    int read(int address);
+    int readCpu(int address);
 
-    int getLowerBound();
+    int getCpuLowerBound();
 
-    int getUpperBound();
+    int getCpuUpperBound();
+
+    void writePpu(int address, int value);
+
+    int readPpu(int address);
+
+    int getPpuLowerBound();
+
+    int getPpuUpperBound();
 }

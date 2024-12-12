@@ -6,7 +6,7 @@ public interface Loader {
 
     void load(byte[] data);
 
-    int getMapperCode();
+    RomFileOptions getRomFileOptions();
 
     Rom getRom();
 }

@@ -126,15 +126,15 @@ public class Memory {
             // TODO: IO/APU registers test mode
             log.info("Called to write memory in APU/IO range");
         } else if (address <= MAPPER_UPPER_BOUND) {
-            mapper.write(address, value);
+            mapper.writeCpu(address, value);
         }
     }
 
     private int readFromMapper(int address) {
-        if (address < mapper.getLowerBound()) {
+        if (address < mapper.getCpuLowerBound()) {
             return openBusValue;
         }
 
-        return mapper.read(address);
+        return mapper.readCpu(address);
     }
 }

@@ -1,6 +1,7 @@
 package nesemu.file.loaders;
 
 import nesemu.file.Loader;
+import nesemu.file.RomFileOptions;
 import nesemu.memory.Rom;
 
 /**
@@ -30,8 +31,10 @@ public class Ines implements Loader {
     }
 
     @Override
-    public int getMapperCode() {
-        return mapperCode;
+    public RomFileOptions getRomFileOptions() {
+        return RomFileOptions.builder()
+                .mapperCode(mapperCode)
+                .build();
     }
 
     @Override
@@ -44,7 +47,7 @@ public class Ines implements Loader {
 
     private void parseHeader() {
         prgRomSize = data[4];
-        chrRomSize = data[5] * 0x2000;
+        chrRomSize = data[5];
 
         // flags 6
         trainerFlag = (data[6] & 0x4) == 0x4;

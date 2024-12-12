@@ -22,14 +22,14 @@ public class NROM implements Mapper {
     }
 
     @Override
-    public void write(int address, int value) {
+    public void writeCpu(int address, int value) {
         if (address < MEMORY_UPPER_BOUND) {
             ram[address - MEMORY_LOWER_BOUND] = value;
         }
     }
 
     @Override
-    public int read(int address) {
+    public int readCpu(int address) {
         if (address < MEMORY_UPPER_BOUND) {
             return ram[address - MEMORY_LOWER_BOUND];
         } else if (address < 0xC000) {
@@ -39,12 +39,32 @@ public class NROM implements Mapper {
     }
 
     @Override
-    public int getLowerBound() {
+    public int getCpuLowerBound() {
         return MEMORY_LOWER_BOUND;
     }
 
     @Override
-    public int getUpperBound() {
+    public int getCpuUpperBound() {
         return MEMORY_UPPER_BOUND;
+    }
+
+    @Override
+    public void writePpu(int address, int value) {
+
+    }
+
+    @Override
+    public int readPpu(int address) {
+        return 0;
+    }
+
+    @Override
+    public int getPpuLowerBound() {
+        return 0;
+    }
+
+    @Override
+    public int getPpuUpperBound() {
+        return 0;
     }
 }

@@ -79,7 +79,7 @@ public class MemoryTest {
         int address = 0xFF00;
         int value = 15;
 
-        when(mapper.read(address)).thenReturn(value);
+        when(mapper.readCpu(address)).thenReturn(value);
 
         int returnedValue = memory.read8Bits(address);
 
@@ -114,7 +114,7 @@ public class MemoryTest {
 
         memory.write8Bits(address, value);
 
-        verify(mapper, only()).write(address, value);
+        verify(mapper, only()).writeCpu(address, value);
     }
 
     @Test
