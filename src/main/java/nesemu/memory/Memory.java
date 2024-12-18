@@ -25,7 +25,7 @@ import nesemu.ppu.Ppu;
  *
  * Example:
  *
- * When calling the 0x08AF the it really calls the 0x00AF address as:
+ * When calling the 0x08AF then it really calls the 0x00AF address as:
  * <pre>
  *     0x08AF AND 0x1FFF = 0x00AF
  * </pre>

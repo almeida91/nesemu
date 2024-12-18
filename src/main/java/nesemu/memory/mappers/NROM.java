@@ -4,13 +4,14 @@ import com.google.inject.Inject;
 import nesemu.memory.Mapper;
 import nesemu.memory.MapperCode;
 import nesemu.memory.Rom;
+import nesemu.ppu.MirroringMode;
 
 @MapperCode(0)
 public class NROM implements Mapper {
 
-    public static final int MEMORY_SIZE = 0x2000;
-    public static final int MEMORY_UPPER_BOUND = 0x8000;
-    public static final int MEMORY_LOWER_BOUND = 0x6000;
+    private static final int MEMORY_SIZE = 0x2000;
+    private static final int MEMORY_UPPER_BOUND = 0x8000;
+    private static final int MEMORY_LOWER_BOUND = 0x6000;
 
     private final Rom rom;
     private int[] ram;
@@ -66,5 +67,10 @@ public class NROM implements Mapper {
     @Override
     public int getPpuUpperBound() {
         return 0;
+    }
+
+    @Override
+    public MirroringMode getMirroringMode() {
+        return null;
     }
 }

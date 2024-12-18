@@ -1,5 +1,7 @@
 package nesemu.memory;
 
+import nesemu.ppu.MirroringMode;
+
 public interface Mapper {
 
     void writeCpu(int address, int value);
@@ -17,4 +19,6 @@ public interface Mapper {
     int getPpuLowerBound();
 
     int getPpuUpperBound();
+
+    MirroringMode getMirroringMode();
 }
