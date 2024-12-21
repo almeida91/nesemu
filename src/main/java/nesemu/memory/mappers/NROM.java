@@ -34,9 +34,9 @@ public class NROM implements Mapper {
         if (address < MEMORY_UPPER_BOUND) {
             return ram[address - MEMORY_LOWER_BOUND];
         } else if (address < 0xC000) {
-            return rom.readPrgBank(0, address - MEMORY_UPPER_BOUND);
+            return rom.readPrgBank16k(0, address - MEMORY_UPPER_BOUND);
         }
-        return rom.readPrgBank(0, address - 0xC000);
+        return rom.readPrgBank16k(0, address - 0xC000);
     }
 
     @Override
@@ -56,7 +56,7 @@ public class NROM implements Mapper {
 
     @Override
     public int readPpu(int address) {
-        return 0;
+        return rom.readChrBank(0, address);
     }
 
     @Override

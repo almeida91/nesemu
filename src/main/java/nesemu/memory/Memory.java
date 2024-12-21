@@ -71,9 +71,9 @@ public class Memory {
         } else if (address <= MIRRORED_RAM_UPPER_BOUND) {
             value = ram[address & RAM_UPPER_BOUND];
         } else if (address < PPU_UPPER_BOUND) {
-            value = ppu.readMemory(address);
+            value = ppu.readRegister(address);
         } else if (address < MIRRORED_PPU_UPPER_BOUND) {
-            value = ppu.readMemory(address & PPU_UPPER_BOUND);
+            value = ppu.readRegister(address & PPU_UPPER_BOUND);
         } else if (address < APU_IO_UPPER_BOUND) {
             // TODO: IO registers / apu registers
             value = 0;
@@ -116,9 +116,9 @@ public class Memory {
         } else if (address <= MIRRORED_RAM_UPPER_BOUND) {
             ram[address & RAM_UPPER_BOUND] = value;
         } else if (address < PPU_UPPER_BOUND) {
-            ppu.writeMemory(address, value);
+            ppu.writeRegister(address, value);
         } else if (address < MIRRORED_PPU_UPPER_BOUND) {
-            ppu.writeMemory(address & PPU_UPPER_BOUND, value);
+            ppu.writeRegister(address & PPU_UPPER_BOUND, value);
         } else if (address < APU_IO_UPPER_BOUND) {
             // TODO: IO registers / apu registers
             log.info("Called to write memory in APU/IO range");
