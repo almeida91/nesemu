@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import nesemu.cpu.Registers;
 
 /**
- * A facade to the {@link Memory} and {@link Registers} classes, to implement the stack push/pull logic.
+ * A facade to the {@link NesMemory} and {@link Registers} classes, to implement the stack push/pull logic.
  */
 @AllArgsConstructor(onConstructor_ = @Inject)
 public class Stack {

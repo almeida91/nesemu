@@ -5,12 +5,9 @@ import com.google.inject.Inject;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.multibindings.Multibinder;
-import com.google.inject.name.Named;
 import nesemu.file.RomFileOptions;
-import nesemu.memory.mappers.NROM;
 import org.reflections.Reflections;
 
-import java.util.HashMap;
 import java.util.Set;
 
 public class MemoryModule extends AbstractModule {
@@ -21,7 +18,7 @@ public class MemoryModule extends AbstractModule {
     protected void configure() {
         mapperBinder = Multibinder.newSetBinder(binder(), Mapper.class);
 
-        bind(Memory.class).asEagerSingleton();
+        bind(Memory.class).to(NesMemory.class).asEagerSingleton();
         bind(Stack.class).asEagerSingleton();
 
         bindMappers();

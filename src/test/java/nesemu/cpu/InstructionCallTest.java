@@ -1,15 +1,18 @@
 package nesemu.cpu;
 
-import nesemu.memory.Memory;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import nesemu.memory.NesMemory;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.only;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class InstructionCallTest {
 
     public static final int INCREMENT_BY_TWO_ADDRESS_VALUE = 5;
@@ -26,7 +29,7 @@ public class InstructionCallTest {
     private Registers registers;
 
     @Mock
-    private Memory memory;
+    private NesMemory memory;
 
     @Mock
     private Instruction instruction;

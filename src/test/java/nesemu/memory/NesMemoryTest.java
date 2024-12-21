@@ -1,17 +1,19 @@
 package nesemu.memory;
 
 import nesemu.ppu.Ppu;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.only;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
-public class MemoryTest {
+@ExtendWith(MockitoExtension.class)
+public class NesMemoryTest {
 
     public static final int MIRRORED_RAM_BEGINNING = 2048;
 
@@ -22,7 +24,7 @@ public class MemoryTest {
     private Mapper mapper;
 
     @InjectMocks
-    private Memory memory;
+    private NesMemory memory;
 
     @Test
     public void testRead8BitsFromRam() {

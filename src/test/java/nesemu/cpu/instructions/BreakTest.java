@@ -4,15 +4,17 @@ import nesemu.cpu.Registers;
 import nesemu.memory.Memory;
 import nesemu.memory.Stack;
 import nesemu.testUtils.RegistersAssertion;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class BreakTest {
 
     public static final int PROGRAM_COUNTER_VALUE = 10;
