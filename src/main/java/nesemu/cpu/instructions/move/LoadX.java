@@ -15,7 +15,7 @@ import nesemu.memory.Memory;
 @OpCode(code = 0xA6, mode = AddressingMode.ZERO_PAGE, cycles = 3)
 @OpCode(code = 0xB6, mode = AddressingMode.ZERO_PAGE_Y, cycles = 4)
 @OpCode(code = 0xAE, mode = AddressingMode.ABSOLUTE, cycles = 4)
-@OpCode(code = 0xAE, mode = AddressingMode.ABSOLUTE_Y, cycles = 4, crossBoundaryPenalty = true)
+@OpCode(code = 0xBE, mode = AddressingMode.ABSOLUTE_Y, cycles = 4, crossBoundaryPenalty = true)
 @AllArgsConstructor(onConstructor_ = @Inject)
 public class LoadX implements Instruction {
 
