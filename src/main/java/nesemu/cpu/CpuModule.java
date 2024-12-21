@@ -7,9 +7,8 @@ import com.google.inject.Singleton;
 import com.google.inject.multibindings.Multibinder;
 import lombok.SneakyThrows;
 import nesemu.memory.Memory;
+import org.reflections.Reflections;
 
-import java.io.File;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -72,24 +71,13 @@ public class CpuModule extends AbstractModule {
 
     private void loadInstructions() throws ClassNotFoundException {
         String packageName = "nesemu.cpu.instructions";
-        URL packageUrl = Thread.currentThread().getContextClassLoader().getResource(packageName.replace(".", "/"));
-        File packageDir = new File(packageUrl.getFile());
+        Reflections reflections = new Reflections(packageName);
 
-        for (File file : packageDir.listFiles()) {
-            addClass(packageName, file);
-        }
-    }
+        Set<Class<? extends Instruction>> classes = reflections.getSubTypesOf(Instruction.class);
 
-    private void addClass(String packageName, File file) throws ClassNotFoundException {
-        if (file.getName().endsWith(".class")) {
-            Class<?> clazz = Class.forName(packageName + "." + file.getName().replace(".class", ""));
+        for (Class<?> clazz : classes) {
             Class<Instruction> instructionClass = (Class<Instruction>) clazz;
-
             instructionBinder.addBinding().to(instructionClass);
-        } else {
-            for (File innerFile : file.listFiles()) {
-                addClass(packageName + "." + file.getName(), innerFile);
-            }
         }
     }
 
