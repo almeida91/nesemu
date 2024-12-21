@@ -70,8 +70,7 @@ public class CpuModule extends AbstractModule {
     }
 
     private void loadInstructions() throws ClassNotFoundException {
-        String packageName = "nesemu.cpu.instructions";
-        Reflections reflections = new Reflections(packageName);
+        Reflections reflections = new Reflections("nesemu.cpu.instructions");
 
         Set<Class<? extends Instruction>> classes = reflections.getSubTypesOf(Instruction.class);
 

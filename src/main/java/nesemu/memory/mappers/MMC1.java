@@ -1,5 +1,6 @@
 package nesemu.memory.mappers;
 
+import com.google.inject.Inject;
 import nesemu.memory.ChrBankingMode;
 import nesemu.memory.Mapper;
 import nesemu.memory.MapperCode;
@@ -29,6 +30,7 @@ public class MMC1 implements Mapper {
 
     private Rom rom;
 
+    @Inject
     public MMC1(Rom rom) {
         // TODO: RAM save reading
         this.rom = rom;
@@ -151,16 +153,13 @@ public class MMC1 implements Mapper {
             // bits 2 and 3 are set in the control register for this
             int prgMode = controlRegister & 0b1100;
 
-            if (prgMode == 0b0000) {
-                prgBankingMode = PrgBankingMode.FULL_32k;
-            } else if (prgMode == 0b0100) {
-                // 16KB
-                prgBankingMode = PrgBankingMode.LOW_16k;
-            } else if (prgMode == 0b1000) {
-                prgBankingMode = PrgBankingMode.HIGH_16k;
-            } else if (prgMode == 0b1100){
-                prgBankingMode = PrgBankingMode.FULL_16k;
-            }
+            prgBankingMode = switch (prgMode) {
+                case 0b0000 -> PrgBankingMode.FULL_32k;
+                case 0b0100 -> PrgBankingMode.LOW_16k;
+                case 0b1000 -> PrgBankingMode.HIGH_16k;
+                case 0b1100 -> PrgBankingMode.FULL_16k;
+                default -> throw new IllegalStateException("Unexpected value: " + prgMode);
+            };
         }
 
         loadRegister = 0x00;
