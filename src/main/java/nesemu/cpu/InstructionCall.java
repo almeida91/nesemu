@@ -47,32 +47,20 @@ public class InstructionCall {
     }
 
     private int getAddress() {
-        switch (addressingMode) {
-            case ABSOLUTE:
-                return readAbsolute();
-            case ABSOLUTE_X:
-                return readAbsoluteX();
-            case ABSOLUTE_Y:
-                return readAbsoluteY();
-            case IMMEDIATE:
-                return readImmediate();
-            case INDIRECT:
-                return readIndirect();
-            case INDIRECT_X:
-                return readIndirectX();
-            case INDIRECT_Y:
-                return readIndirectY();
-            case RELATIVE:
-                return readRelative();
-            case ZERO_PAGE:
-                return readZeroPage();
-            case ZERO_PAGE_X:
-                return readZeroPageX();
-            case ZERO_PAGE_Y:
-                return readZeroPageY();
-            default:
-                return 0;
-        }
+        return switch (addressingMode) {
+            case ABSOLUTE -> readAbsolute();
+            case ABSOLUTE_X -> readAbsoluteX();
+            case ABSOLUTE_Y -> readAbsoluteY();
+            case IMMEDIATE -> readImmediate();
+            case INDIRECT -> readIndirect();
+            case INDIRECT_X -> readIndirectX();
+            case INDIRECT_Y -> readIndirectY();
+            case RELATIVE -> readRelative();
+            case ZERO_PAGE -> readZeroPage();
+            case ZERO_PAGE_X -> readZeroPageX();
+            case ZERO_PAGE_Y -> readZeroPageY();
+            default -> 0;
+        };
     }
 
     private int readImmediate() {
@@ -80,7 +68,7 @@ public class InstructionCall {
     }
 
     private int readZeroPage() {
-        int address = registers.incrementPc();
+        int address = registers.incrementPc() & 0xFF;
         return memory.read8Bits(address);
     }
 
@@ -116,8 +104,13 @@ public class InstructionCall {
     }
 
     private int readIndirectX() {
-        int address = memory.read16Bits(registers.incrementPcByTwoAddress()) + registers.getX();
-        return memory.read16Bits(address);
+        int operandAddress = registers.incrementPc();
+        int zeroPageAddress = (memory.read8Bits(operandAddress) + registers.getX()) & 0xFF;
+
+        int address = memory.read8Bits(zeroPageAddress);
+        address |= memory.read8Bits((zeroPageAddress + 1) & 0xFF) << 8;
+
+        return address;
     }
 
     private int readIndirectY() {

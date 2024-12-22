@@ -11,6 +11,8 @@ import lombok.Setter;
  *
  * The Status register P is also represented here, it has the following mapping:
  *
+ * Bit 5 is always set to 1.
+ *
  * <pre>
  * bits
  * 76543210
@@ -19,7 +21,7 @@ import lombok.Setter;
  * ||||||+- {@link #zeroFlag}
  * |||||+-- {@link #interruptFlag}
  * ||||+--- {@link #decimalFlag}
- * ||++---- {@link #breakpointFlag}
+ * |||+---- {@link #breakpointFlag}
  * |+------ {@link #overflowFlag}
  * +------- {@link #negativeFlag}
  * </pre>
@@ -116,7 +118,8 @@ public class Registers {
         p |= zeroFlag       ? 0b00000010 : 0;
         p |= interruptFlag  ? 0b00000100 : 0;
         p |= decimalFlag    ? 0b00001000 : 0;
-        p |= breakpointFlag ? 0b00110000 : 0;
+//        p |= breakpointFlag ? 0b00110000 : 0;
+        p |= 0b00100000;
         p |= overflowFlag   ? 0b01000000 : 0;
         p |= negativeFlag   ? 0b10000000 : 0;
 
@@ -133,7 +136,7 @@ public class Registers {
         zeroFlag       = (p & 0b00000010) != 0;
         interruptFlag  = (p & 0b00000100) != 0;
         decimalFlag    = (p & 0b00001000) != 0;
-        breakpointFlag = (p & 0b00110000) != 0;
+//        breakpointFlag = (p & 0b00110000) != 0;
         overflowFlag   = (p & 0b01000000) != 0;
         negativeFlag   = (p & 0b10000000) != 0;
     }
@@ -146,5 +149,16 @@ public class Registers {
         int pc = this.pc;
         this.pc += 2;
         return pc;
+    }
+
+    public void reset() {
+        setP(0);
+
+        sp = 0xFF;
+        pc = 0xFFFC;
+
+        a = 0;
+        x = 0;
+        y = 0;
     }
 }
