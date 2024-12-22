@@ -30,21 +30,19 @@ public class RotateLeft implements Instruction {
         if (opCode == 0x2A) {
             value = registers.getA();
 
-            registers.setCarryFlag(value > 255);
-
             value <<= 1;
             value |= carry;
             registers.setA(value & 0xFF);
         } else {
             value = memory.read8Bits(address);
 
-            registers.setCarryFlag(value > 255);
 
             value <<= 1;
             value |= carry;
             memory.write8Bits(address, value);
         }
 
+        registers.setCarryFlag((value & 0xFF00) != 0);
         registers.setNegativeFlag((value & 0x80) != 0);
         registers.setZeroFlag((value & 0xFF) == 0);
     }

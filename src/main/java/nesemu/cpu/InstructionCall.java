@@ -64,20 +64,27 @@ public class InstructionCall {
     }
 
     private int readImmediate() {
-        return registers.incrementPc();
+        return registers.incrementPc() & 0xFFFF;
     }
 
     private int readZeroPage() {
-        int address = registers.incrementPc() & 0xFF;
-        return memory.read8Bits(address);
+        return memory.read8Bits(registers.incrementPc()) & 0xFF;
     }
 
     private int readZeroPageX() {
-        return readZeroPage() + registers.getX();
+        int address = memory.read8Bits(registers.incrementPc());
+        address += registers.getX();
+        address &= 0xFF;
+
+        return address;
     }
 
     private int readZeroPageY() {
-        return readZeroPage() + registers.getY();
+        int address = memory.read8Bits(registers.incrementPc());
+        address += registers.getY();
+        address &= 0xFF;
+
+        return address;
     }
 
     private int readAbsolute() {
@@ -86,16 +93,16 @@ public class InstructionCall {
     }
 
     private int readAbsoluteX() {
-        return readAbsolute() + registers.getX();
+        return (readAbsolute() + registers.getX()) & 0xFFFF;
     }
 
     private int readAbsoluteY() {
-        return readAbsolute() + registers.getY();
+        return (readAbsolute() + registers.getY()) & 0xFFFF;
     }
 
     private int readRelative() {
         int address = registers.incrementPc();
-        return address + memory.read8Bits(address);
+        return address + 1 + getSignedValue(memory.read8Bits(address) & 0xFF);
     }
 
     private int readIndirect() {
@@ -114,8 +121,20 @@ public class InstructionCall {
     }
 
     private int readIndirectY() {
-        int address = memory.read16Bits(registers.incrementPcByTwoAddress()) + registers.getY();
-        return memory.read16Bits(address);
+        int operandAddress = registers.incrementPc();
+        int zeroPageAddress = (memory.read8Bits(operandAddress)) & 0xFF;
 
+        int address = memory.read8Bits(zeroPageAddress);
+        address |= memory.read8Bits((zeroPageAddress + 1) & 0xFF) << 8;
+
+        address += registers.getY();
+        address &= 0xFFFF;
+
+        return address;
+
+    }
+
+    private int getSignedValue(int value) {
+        return value > 127 ? value - 256 : value;
     }
 }

@@ -142,13 +142,21 @@ public class Registers {
     }
 
     public int incrementPc() {
-        return pc++;
+        int pc = this.pc;
+        this.pc++;
+        this.pc &= 0xFFFF;
+        return pc;
     }
 
     public int incrementPcByTwoAddress() {
         int pc = this.pc;
         this.pc += 2;
+        this.pc &= 0xFFFF;
         return pc;
+    }
+
+    public void setPc(int pc) {
+        this.pc = pc & 0xFFFF;
     }
 
     public void reset() {

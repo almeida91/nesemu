@@ -21,7 +21,7 @@ public class Cpu {
     }
 
     public void cycle() {
-        if (cycles == 0) {
+         if (cycles == 0) {
             int opcode = readMemory();
 
             InstructionCall call = instructions.get(opcode);
@@ -30,6 +30,10 @@ public class Cpu {
         } else {
             cycles--;
         }
+    }
+
+    public int getRemainingCycles() {
+        return cycles;
     }
 
     private int readMemory() {

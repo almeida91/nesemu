@@ -6,7 +6,7 @@ import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.multibindings.Multibinder;
 import lombok.SneakyThrows;
-import nesemu.memory.NesMemory;
+import nesemu.memory.Memory;
 import org.reflections.Reflections;
 
 import java.util.HashMap;
@@ -32,7 +32,7 @@ public class CpuModule extends AbstractModule {
     @Provides
     @Singleton
     @Inject
-    public Map<Integer, InstructionCall> provideInstructionCallMap(Set<Instruction> instructions, Registers registers, NesMemory memory) {
+    public Map<Integer, InstructionCall> provideInstructionCallMap(Set<Instruction> instructions, Registers registers, Memory memory) {
         Map<Integer, InstructionCall> instructionCallMap = new HashMap<>();
         Set<String> mnemonics = new HashSet<>();
 
@@ -69,7 +69,7 @@ public class CpuModule extends AbstractModule {
         return instructionCallMap;
     }
 
-    private void loadInstructions() throws ClassNotFoundException {
+    private void loadInstructions() {
         Reflections reflections = new Reflections("nesemu.cpu.instructions");
 
         Set<Class<? extends Instruction>> classes = reflections.getSubTypesOf(Instruction.class);
