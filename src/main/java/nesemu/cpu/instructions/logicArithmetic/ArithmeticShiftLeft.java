@@ -16,7 +16,7 @@ import nesemu.memory.Memory;
 @OpCode(code = 0x0E, mode = AddressingMode.ABSOLUTE, cycles = 6)
 @OpCode(code = 0x1E, mode = AddressingMode.ABSOLUTE_X, cycles = 7)
 @AllArgsConstructor(onConstructor_ = @Inject)
-public class AtihmeticShiftLeft implements Instruction {
+public class ArithmeticShiftLeft implements Instruction {
 
     private Registers registers;
 
@@ -29,7 +29,7 @@ public class AtihmeticShiftLeft implements Instruction {
         if (opCode == 0x0A) {
             registers.setCarryFlag(registers.getA() >> 7 == 1);
             value = registers.getA() << 1;
-            registers.setA(value);
+            registers.setA(value & 0xFF);
         } else {
             value = memory.read8Bits(address);
             registers.setCarryFlag(value >> 7 == 1);

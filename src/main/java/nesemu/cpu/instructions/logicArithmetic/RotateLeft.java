@@ -27,7 +27,7 @@ public class RotateLeft implements Instruction {
         int value;
         int carry = registers.getCarryFlag() ? 1 : 0;
 
-        if (opCode == 0x0A) {
+        if (opCode == 0x2A) {
             value = registers.getA();
 
             registers.setCarryFlag(value > 255);
