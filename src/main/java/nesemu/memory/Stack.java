@@ -10,6 +10,8 @@ import nesemu.cpu.Registers;
 @AllArgsConstructor(onConstructor_ = @Inject)
 public class Stack {
 
+    private static final int STACK_START = 0x0100;
+
     private Memory memory;
 
     private Registers registers;
@@ -21,7 +23,7 @@ public class Stack {
      * @param value the value to be pushed to the stack
      */
     public void push8Bits(int value) {
-        memory.write8Bits(registers.getSp(), value);
+        memory.write8Bits(registers.getSp() + STACK_START, value);
         registers.setSp(decrementSp());
     }
 
@@ -34,7 +36,7 @@ public class Stack {
         int sp = incrementSp();
         registers.setSp(sp);
 
-        return memory.read8Bits(sp);
+        return memory.read8Bits(sp + STACK_START);
     }
 
     /**
