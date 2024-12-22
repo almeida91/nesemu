@@ -14,14 +14,14 @@ public class TestMemory implements Memory {
     @Override
     public int read8Bits(int address) {
         int value = ram.getOrDefault(address, 0);
-//        System.out.println("%d: %d".formatted(address, value));
+        System.out.println("%d: %d".formatted(address, value));
         return value;
     }
 
     @Override
     public int read16Bits(int address) {
         int value = read8Bits(address);
-        value |= read8Bits(address + 1) << 8;
+        value |= read8Bits((address + 1) & 0xFFFF) << 8;
         return value;
     }
 

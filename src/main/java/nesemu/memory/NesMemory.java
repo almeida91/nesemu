@@ -101,7 +101,7 @@ public class NesMemory implements Memory {
     @Override
     public int read16Bits(int address) {
         int value = read8Bits(address);
-        value |= read8Bits(address + 1) << 8;
+        value |= read8Bits((address + 1) & 0xFFFF) << 8;
         return value;
     }
 
