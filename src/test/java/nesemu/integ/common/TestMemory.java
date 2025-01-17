@@ -13,7 +13,11 @@ public class TestMemory implements Memory {
 
     @Override
     public int read8Bits(int address) {
-        int value = ram.getOrDefault(address, 0);
+        Integer value = ram.get(address);
+        if (value == null) {
+            throw new RuntimeException("Address %d not initialized".formatted(address));
+        }
+
         System.out.println("%d: %d".formatted(address, value));
         return value;
     }

@@ -106,7 +106,7 @@ public class InstructionCall {
     }
 
     private int readIndirect() {
-        int address = memory.read16Bits(registers.incrementPcByTwoAddress());
+        int address = memory.read16Bits(registers.incrementPc() & 0xFFFF);
         return memory.read16Bits(address);
     }
 

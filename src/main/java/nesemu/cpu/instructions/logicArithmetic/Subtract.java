@@ -28,19 +28,27 @@ public class Subtract implements Instruction {
     @Override
     public void run(int opCode, int address) {
         int memoryValue = memory.read8Bits(address);
-        int value = registers.getA() - memoryValue;
+        int carryIn = registers.getCarryFlag() ? 0 : 1;
+        int value = registers.getA() - memoryValue - carryIn;
+        boolean carrySet = value >= 0;
 
-        value -= (registers.getCarryFlag() ? 0 : 1);
+        if (value < 0) {
+            value += 256;
+        }
+
+        int signedA = getSignedValue(registers.getA());
+        int signedMemoryValue = getSignedValue(memoryValue);
 
         registers.setA(value & 0xFF);
-
-        boolean inputValuesHaveSameSign = ((registers.getA() ^ memoryValue) & 0x80) == 0;
-        boolean resultHasSignDifference = ((registers.getA() ^ value) & 0x80) != 0;
-
-        registers.setOverflowFlag(inputValuesHaveSameSign && resultHasSignDifference);
-        registers.setCarryFlag(value > 255);
+        registers.setOverflowFlag(signedA - signedMemoryValue < -128 || signedA - signedMemoryValue > 127);
+        registers.setCarryFlag(carrySet);
         registers.setNegativeFlag((value & 0x80) != 0);
         registers.setZeroFlag((value & 0xFF) == 0);
 
     }
+
+    private int getSignedValue(int value) {
+        return value > 127 ? value - 256 : value;
+    }
+
 }

@@ -48,6 +48,8 @@ public class CpuTestState {
         assertEquals(x, registers.getX(), "X Register mismatch - expected: %d, actual: %d".formatted(x, registers.getX()));
         assertEquals(y, registers.getY(), "Y Register mismatch - expected: %d, actual: %d".formatted(y, registers.getY()));
         assertEquals(p, registers.getP(), "Flag register mismatch - expected: %d, actual: %d".formatted(p, registers.getP()));
+
+        // TODO: test memory
     }
 
 

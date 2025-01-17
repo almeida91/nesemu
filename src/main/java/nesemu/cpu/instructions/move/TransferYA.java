@@ -16,7 +16,7 @@ public class TransferYA implements Instruction {
 
     @Override
     public void run(int opcode, int address) {
-        registers.setY(registers.getA());
+        registers.setA(registers.getY());
 
         registers.setZeroFlag(registers.getY() == 0);
         registers.setNegativeFlag((registers.getY() & 0x80) != 0);
