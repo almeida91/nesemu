@@ -18,7 +18,6 @@ public class TestMemory implements Memory {
             throw new RuntimeException("Address %d not initialized".formatted(address));
         }
 
-        System.out.println("%d: %d".formatted(address, value));
         return value;
     }
 
