@@ -20,13 +20,18 @@ public class Cpu {
         this.instructions = instructions;
     }
 
+    public void reset() {
+        registers.reset();
+        registers.setPc(memory.read16Bits(registers.getPc()));
+    }
+
     public void cycle() {
-         if (cycles == 0) {
+        if (cycles == 0) {
             int opcode = readMemory();
 
             InstructionCall call = instructions.get(opcode);
+            String mnemonic = call.getMnemonic();
             cycles = call.run();
-
         } else {
             cycles--;
         }

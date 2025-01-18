@@ -1,5 +1,6 @@
 package nesemu;
 
+import com.google.inject.Inject;
 import nesemu.cpu.Cpu;
 import nesemu.ppu.Ppu;
 
@@ -11,6 +12,7 @@ public class NES {
     private int cpuCycleTime;
     private long  lastCpuCycleTime;
 
+    @Inject
     public NES(Cpu cpu, Ppu ppu) {
         this.cpu = cpu;
         this.ppu = ppu;
@@ -18,6 +20,8 @@ public class NES {
     }
 
     public void loop() {
+        cpu.reset();
+
         while (true) {
             long time = System.nanoTime();
             cycle(time);

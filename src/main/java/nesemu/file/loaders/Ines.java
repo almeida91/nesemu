@@ -46,23 +46,23 @@ public class Ines implements Loader {
     }
 
     private void parseHeader() {
-        prgRomSize = data[4];
-        chrRomSize = data[5];
+        prgRomSize = getData(4);
+        chrRomSize = getData(5);
 
         // flags 6
         trainerFlag = (data[6] & 0x4) == 0x4;
-        mapperCode = data[6] & 0xFF;
+        mapperCode = getData(6);
 
         // flags 7
         mapperCode |= (data[7] & 0xF0) << 4;
 
         // flags 8
-        prgRamSize = data[8] & 0xFF;
+        prgRamSize = getData(8);
     }
 
     private void validateHeader() {
         String header = new String(data, 0, 3);
-        if (!header.equals("NES") && data[4] != 0x1A) {
+        if (!header.equals("NES") && getData(4) != 0x1A) {
             throw new RuntimeException("Invalid iNES header");
         }
     }
@@ -73,7 +73,7 @@ public class Ines implements Loader {
 
         for (int i = 0; i < prgRomSize; i++) {
             for (int j = 0; j < PRG_PAGE_SIZE; j++) {
-                prgRom[i][j] = data[prgRomStart + (i * PRG_PAGE_SIZE) + j];
+                prgRom[i][j] = getData(prgRomStart + (i * PRG_PAGE_SIZE) + j);
             }
         }
 
@@ -86,7 +86,7 @@ public class Ines implements Loader {
 
         for (int i = 0; i < chrRomSize; i++) {
             for (int j = 0; j < CHR_PAGE_SIZE; j++) {
-                chrRom[i][j] = data[chrRomStart + (i * CHR_PAGE_SIZE) + j];
+                chrRom[i][j] = getData(chrRomStart + (i * CHR_PAGE_SIZE) + j);
             }
         }
 
@@ -99,5 +99,9 @@ public class Ines implements Loader {
 
     private int getChrRomStart() {
         return getPrgRomStart() + (prgRomSize * PRG_PAGE_SIZE);
+    }
+
+    private int getData(int i) {
+        return data[i] & 0xFF;
     }
 }

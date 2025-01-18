@@ -1,6 +1,7 @@
 package nesemu.cpu;
 
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import nesemu.memory.Memory;
 
 @AllArgsConstructor
@@ -14,6 +15,7 @@ public class InstructionCall {
 
     private AddressingMode addressingMode;
 
+    @Getter
     private String mnemonic;
 
     private int opCode;

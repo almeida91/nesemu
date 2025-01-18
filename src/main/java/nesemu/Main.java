@@ -21,7 +21,7 @@ public class Main {
             new MemoryModule()
         );
 
-        Cpu instance = injector.getInstance(Cpu.class);
-        System.out.println(instance);
+        NES nes = injector.getInstance(NES.class);
+        nes.loop();
     }
 }
