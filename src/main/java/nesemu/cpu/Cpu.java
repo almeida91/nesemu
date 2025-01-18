@@ -30,7 +30,6 @@ public class Cpu {
             int opcode = readMemory();
 
             InstructionCall call = instructions.get(opcode);
-            String mnemonic = call.getMnemonic();
             cycles = call.run();
         } else {
             cycles--;

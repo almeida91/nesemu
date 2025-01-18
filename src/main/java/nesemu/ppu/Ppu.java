@@ -1,8 +1,11 @@
 package nesemu.ppu;
 
 
+import com.google.inject.Inject;
 import nesemu.memory.Mapper;
 import nesemu.memory.Rom;
+import nesemu.ppu.registers.ControlRegister;
+import nesemu.ppu.registers.StatusRegister;
 
 public class Ppu {
 
@@ -13,7 +16,22 @@ public class Ppu {
 
     private Mapper mapper;
     private Rom rom;
+    private ControlRegister controlRegister;
+    private StatusRegister statusRegister;
+
     private int[] ram = new int[0x2000];
+    private boolean readOnly = false;
+    private int scanline = 0;
+    private int cycle = 0;
+    private boolean nmi = false;
+
+    @Inject
+    public Ppu(Mapper mapper, Rom rom, ControlRegister controlRegister, StatusRegister statusRegister) {
+        this.mapper = mapper;
+        this.rom = rom;
+        this.controlRegister = controlRegister;
+        this.statusRegister = statusRegister;
+    }
 
     public int readMemory(int address) {
         if (address < NAMETABLES_LOWER_BOUND) {
@@ -31,6 +49,14 @@ public class Ppu {
     }
 
     public int readRegister(int address) {
+        if (readOnly) {
+            switch (address) {
+                case 0x2000:
+                    return controlRegister.get();
+                case 0x2002:
+                    return statusRegister.get();
+            }
+        }
         return 0;
     }
 
@@ -40,5 +66,23 @@ public class Ppu {
 
     public void cycle() {
 
+
+        if (scanline >= 241 && scanline <= 261) {
+            statusRegister.setVerticalBlank(true);
+
+            if (controlRegister.isNmiEnable()) {
+                nmi = true;
+            }
+        } else {
+            statusRegister.setVerticalBlank(false);
+        }
+
+        if (cycle >= 341) {
+            cycle = 0;
+            scanline++;
+            if (scanline >= 262) {
+                scanline = -1;
+            }
+        }
     }
 }

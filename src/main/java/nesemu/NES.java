@@ -32,6 +32,11 @@ public class NES {
         if (time - lastCpuCycleTime >= cpuCycleTime) {
             cpu.cycle();
             lastCpuCycleTime = time;
+
+            for (int i = 0; i < 3; i++) {
+                ppu.cycle();
+            }
         }
+
     }
 }

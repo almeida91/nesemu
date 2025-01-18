@@ -2,6 +2,7 @@ package nesemu.cpu;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import nesemu.debug.Debugger;
 import nesemu.memory.Memory;
 
 @AllArgsConstructor
@@ -13,11 +14,15 @@ public class InstructionCall {
 
     private Instruction instruction;
 
+    private Debugger debugger;
+
+    @Getter
     private AddressingMode addressingMode;
 
     @Getter
     private String mnemonic;
 
+    @Getter
     private int opCode;
 
     private int cycles;
@@ -31,6 +36,8 @@ public class InstructionCall {
      */
     public int run() {
         int address = getAddress();
+
+        debugger.callInstruction(this, address);
 
         instruction.run(opCode, address);
 

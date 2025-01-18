@@ -6,6 +6,7 @@ import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.multibindings.Multibinder;
 import lombok.SneakyThrows;
+import nesemu.debug.Debugger;
 import nesemu.memory.Memory;
 import org.reflections.Reflections;
 
@@ -32,7 +33,7 @@ public class CpuModule extends AbstractModule {
     @Provides
     @Singleton
     @Inject
-    public Map<Integer, InstructionCall> provideInstructionCallMap(Set<Instruction> instructions, Registers registers, Memory memory) {
+    public Map<Integer, InstructionCall> provideInstructionCallMap(Set<Instruction> instructions, Registers registers, Memory memory, Debugger debugger) {
         Map<Integer, InstructionCall> instructionCallMap = new HashMap<>();
         Set<String> mnemonics = new HashSet<>();
 
@@ -56,7 +57,16 @@ public class CpuModule extends AbstractModule {
                 boolean hasCrossPageBoundaryPenalty = opCode.crossBoundaryPenalty();
 
                 InstructionCall instructionCall =
-                        new InstructionCall(registers, memory, instruction, addressingMode, mnemonic, opCodeNumber, numberOfCycles, hasCrossPageBoundaryPenalty);
+                        new InstructionCall(
+                                registers,
+                                memory,
+                                instruction,
+                                debugger,
+                                addressingMode,
+                                mnemonic,
+                                opCodeNumber,
+                                numberOfCycles,
+                                hasCrossPageBoundaryPenalty);
 
                 if (instructionCallMap.containsKey(opCodeNumber)) {
                     throw new IllegalArgumentException(String.format("Duplicated %d opcode", opCodeNumber));

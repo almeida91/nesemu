@@ -3,6 +3,8 @@ package nesemu;
 import com.google.inject.AbstractModule;
 import lombok.AllArgsConstructor;
 import nesemu.commandLine.LaunchParameters;
+import nesemu.debug.Debugger;
+import nesemu.debug.PrintDebugger;
 
 @AllArgsConstructor
 public class NesModule extends AbstractModule {
@@ -12,5 +14,6 @@ public class NesModule extends AbstractModule {
     @Override
     protected void configure() {
         bind(LaunchParameters.class).toInstance(launchParameters);
+        bind(Debugger.class).to(PrintDebugger.class).asEagerSingleton();
     }
 }
