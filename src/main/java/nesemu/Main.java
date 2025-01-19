@@ -4,7 +4,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import nesemu.commandLine.LaunchParameters;
 import nesemu.commandLine.LaunchParametersParser;
-import nesemu.cpu.Cpu;
+import nesemu.io.IoModule;
 import nesemu.cpu.CpuModule;
 import nesemu.file.FileModule;
 import nesemu.memory.MemoryModule;
@@ -16,13 +16,13 @@ public class Main {
         LaunchParameters parameters = parser.parse(args);
 
 
-
         Injector injector = Guice.createInjector(
-            new NesModule(parameters),
-            new FileModule(),
-            new CpuModule(),
-            new MemoryModule(),
-            new PpuModule()
+                new NesModule(parameters),
+                new FileModule(),
+                new CpuModule(),
+                new MemoryModule(),
+                new PpuModule(),
+                new IoModule()
         );
 
         NES nes = injector.getInstance(NES.class);

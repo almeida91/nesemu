@@ -2,6 +2,8 @@ package nesemu.memory;
 
 import com.google.inject.Inject;
 import lombok.extern.slf4j.Slf4j;
+import nesemu.io.Controller;
+import nesemu.io.Input;
 import nesemu.ppu.Ppu;
 
 /**
@@ -37,7 +39,8 @@ public class NesMemory implements Memory {
     public static final int MIRRORED_RAM_UPPER_BOUND = 0x1FFF;
     public static final int PPU_UPPER_BOUND = 0x2007;
     public static final int MIRRORED_PPU_UPPER_BOUND = 0x3FFF;
-    public static final int APU_IO_UPPER_BOUND = 0x4017;
+    public static final int APU_UPPER_BOUND = 0x4015;
+    public static final int IO_UPPER_BOUND = 0x4017;
     public static final int APU_IO_TEST_MODE_ADDRESSES = 0x401F;
     public static final int MAPPER_UPPER_BOUND = 0xFFFF;
 
@@ -45,14 +48,17 @@ public class NesMemory implements Memory {
 
     private Mapper mapper;
 
+    private Input input;
+
     private int[] ram;
 
     private int openBusValue;
 
     @Inject
-    public NesMemory(Ppu ppu, Mapper mapper) {
+    public NesMemory(Ppu ppu, Mapper mapper, Input input) {
         this.ppu = ppu;
         this.mapper = mapper;
+        this.input = input;
         ram = new int[RAM_UPPER_BOUND + 1];
     }
 
@@ -75,9 +81,11 @@ public class NesMemory implements Memory {
             value = ppu.readRegister(address);
         } else if (address < MIRRORED_PPU_UPPER_BOUND) {
             value = ppu.readRegister(address & PPU_UPPER_BOUND);
-        } else if (address < APU_IO_UPPER_BOUND) {
-            // TODO: IO registers / apu registers
+        } else if (address < APU_UPPER_BOUND) {
+            // TODO: apu registers
             value = 0;
+        } else if (address < IO_UPPER_BOUND) {
+            return input.read(address);
         } else if (address < APU_IO_TEST_MODE_ADDRESSES) {
             // TODO: IO/APU registers test mode
             value = 0;
@@ -122,9 +130,11 @@ public class NesMemory implements Memory {
             ppu.writeRegister(address, value);
         } else if (address < MIRRORED_PPU_UPPER_BOUND) {
             ppu.writeRegister(address & PPU_UPPER_BOUND, value);
-        } else if (address < APU_IO_UPPER_BOUND) {
-            // TODO: IO registers / apu registers
-            log.info("Called to write memory in APU/IO range");
+        } else if (address < APU_UPPER_BOUND) {
+            // TODO: apu registers
+            log.info("Called to write memory in APU range");
+        } else if (address < IO_UPPER_BOUND) {
+            input.write(address, value);
         } else if (address < APU_IO_TEST_MODE_ADDRESSES) {
             // TODO: IO/APU registers test mode
             log.info("Called to write memory in APU/IO range");
