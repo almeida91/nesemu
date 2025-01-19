@@ -2,12 +2,14 @@ package nesemu.memory;
 
 import com.google.inject.Inject;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import nesemu.cpu.Registers;
 
 /**
  * A facade to the {@link NesMemory} and {@link Registers} classes, to implement the stack push/pull logic.
  */
 @AllArgsConstructor(onConstructor_ = @Inject)
+@Slf4j
 public class Stack {
 
     private static final int STACK_START = 0x0100;
@@ -80,10 +82,21 @@ public class Stack {
         return (pull8Bits() << 8) | value;
     }
 
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+
+        for (int i = 0; i < 0xFF; i++) {
+            sb.append(String.format("%02X", memory.read8Bits(i + STACK_START))).append(" ");
+        }
+
+        return sb.toString();
+    }
+
     private int decrementSp() {
         int sp = registers.getSp() - 1;
 
         if (sp < 0) {
+            log.debug("Stack overflow");
             return 0xFF;
         }
 

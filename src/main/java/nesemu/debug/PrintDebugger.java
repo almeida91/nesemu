@@ -49,11 +49,18 @@ public class PrintDebugger implements Debugger {
 
     private String getOperand(InstructionCall instructionCall, int address) {
         return switch (instructionCall.getAddressingMode()) {
-            case ABSOLUTE, ABSOLUTE_X, ABSOLUTE_Y, INDIRECT, RELATIVE -> String.format("$%04X", address);
-            case IMMEDIATE -> String.format("#$%02X", memory.read8Bits(address));
-            case ZERO_PAGE, ZERO_PAGE_X, ZERO_PAGE_Y -> String.format("$%02X", address);
+            case ABSOLUTE, ABSOLUTE_X, ABSOLUTE_Y, INDIRECT, RELATIVE -> "$%04X".formatted(address);
+            case IMMEDIATE -> readImmediateMemory(address);
+            case ZERO_PAGE, ZERO_PAGE_X, ZERO_PAGE_Y -> "$%02X".formatted(address);
             default -> "";
         };
+    }
+
+    private String readImmediateMemory(int address) {
+        if (address >= 0x2000 && address < 0x4000) {
+            return "PPU $%d".formatted(address);
+        }
+        return "#$%02X".formatted(memory.read8Bits(address));
     }
 
     private String getOperationBytes(InstructionCall instructionCall, String operand) {

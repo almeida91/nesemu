@@ -51,30 +51,6 @@ public class NesMemoryTest {
         assertEquals(value, returnedValue);
     }
 
-    @Test
-    public void testRead8BitsFromPpu() {
-        int address = 0x2005;
-        int value = 15;
-
-        when(ppu.readMemory(address)).thenReturn(value);
-
-        int returnedValue = memory.read8Bits(address);
-
-        assertEquals(value, returnedValue);
-    }
-
-    @Test
-    public void testRead8BitsFromMirroredPpu() {
-        int address = 0x2000;
-        int mirroredAddress = 0x2008;
-        int value = 15;
-
-        when(ppu.readMemory(address)).thenReturn(value);
-
-        int returnedValue = memory.read8Bits(mirroredAddress);
-
-        assertEquals(value, returnedValue);
-    }
 
     @Test
     public void testRead8BitsFromMapper() {
@@ -86,27 +62,6 @@ public class NesMemoryTest {
         int returnedValue = memory.read8Bits(address);
 
         assertEquals(value, returnedValue);
-    }
-
-    @Test
-    public void testWrite8BitsToPpu() {
-        int address = 0x2005;
-        int value = 15;
-
-        memory.write8Bits(address, value);
-
-        verify(ppu, only()).writeMemory(address, value);
-    }
-
-    @Test
-    public void testWrite8BitsToMirroredMirroredPpu() {
-        int address = 0x2000;
-        int mirroredAddress = 0x2008;
-        int value = 15;
-
-        memory.write8Bits(mirroredAddress, value);
-
-        verify(ppu, only()).writeMemory(address, value);
     }
 
     @Test

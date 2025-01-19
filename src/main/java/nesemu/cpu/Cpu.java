@@ -1,11 +1,13 @@
 package nesemu.cpu;
 
 import com.google.inject.Inject;
+import lombok.extern.slf4j.Slf4j;
 import nesemu.memory.Memory;
 import nesemu.memory.Stack;
 
 import java.util.Map;
 
+@Slf4j
 public class Cpu {
 
     private static final int NMI_ADDRESS = 0xFFFA;
@@ -38,7 +40,12 @@ public class Cpu {
             int opcode = readMemory();
 
             InstructionCall call = instructions.get(opcode);
-            cycles = call.run();
+            try {
+                cycles = call.run();
+            } catch (NullPointerException e) {
+                log.debug("Unknown opcode: {} at address {}", opcode, registers.getPc() - 1);
+                throw new RuntimeException(e);
+            }
         } else {
             cycles--;
         }
@@ -64,6 +71,7 @@ public class Cpu {
             return;
         }
 
+        log.debug("NMI");
         interrupt(NMI_ADDRESS, NMI_CYCLES);
     }
 
