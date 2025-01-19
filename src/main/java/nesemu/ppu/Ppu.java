@@ -49,23 +49,46 @@ public class Ppu {
     }
 
     public int readRegister(int address) {
-        if (readOnly) {
+//        if (readOnly) {
             switch (address) {
                 case 0x2000:
                     return controlRegister.get();
                 case 0x2002:
                     return statusRegister.get();
             }
-        }
+//        }
         return 0;
     }
 
     public void writeRegister(int address, int value) {
+        switch (address) {
+            case 0x2000:
+                controlRegister.set(value);
+                break;
+            case 0x2001:
+                break;
+            case 0x2003:
+                break;
+            case 0x2004:
+                break;
+            case 0x2005:
+                break;
+            case 0x2006:
+                break;
+            case 0x2007:
+                break;
+            case 0x4014:
+                break;
+        }
+    }
 
+    public boolean readNmi() {
+        boolean nmi = this.nmi;
+        this.nmi = false;
+        return nmi;
     }
 
     public void cycle() {
-
 
         if (scanline >= 241 && scanline <= 261) {
             statusRegister.setVerticalBlank(true);
@@ -76,6 +99,8 @@ public class Ppu {
         } else {
             statusRegister.setVerticalBlank(false);
         }
+
+        cycle++;
 
         if (cycle >= 341) {
             cycle = 0;

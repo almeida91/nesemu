@@ -16,6 +16,8 @@ public class MemoryModule extends AbstractModule {
 
     @Override
     protected void configure() {
+        binder().requireExplicitBindings();
+
         mapperBinder = Multibinder.newSetBinder(binder(), Mapper.class);
 
         bind(Memory.class).to(NesMemory.class).asEagerSingleton();

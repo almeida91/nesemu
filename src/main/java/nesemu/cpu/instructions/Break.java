@@ -32,9 +32,8 @@ public class Break implements Instruction {
         stack.push16Bits(registers.getPc());
         stack.push8Bits(registers.getP());
 
-        // TODO: Should we reset the breakpoint flag here?
         registers.setPc(memory.read16Bits(0xFFFE));
-
+        registers.setBreakpointFlag(false);
 
     }
 }

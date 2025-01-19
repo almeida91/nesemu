@@ -30,11 +30,17 @@ public class NES {
 
     private void cycle(long time) {
         if (time - lastCpuCycleTime >= cpuCycleTime) {
+            // TODO: DMA access delays
+
             cpu.cycle();
             lastCpuCycleTime = time;
 
             for (int i = 0; i < 3; i++) {
                 ppu.cycle();
+            }
+
+            if (ppu.readNmi()) {
+                cpu.nmi();
             }
         }
 

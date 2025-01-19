@@ -89,7 +89,7 @@ public class Registers {
     /**
      * The B flag, also known as breakpoint flag.
      * The P register only uses the four lower and the two higher bits.
-     * While that means the fifth and the sixth bits are left unset, the CPU when pushes it to the stack sets theses bits with 1.
+     * While that means the fifth and the sixth bits are left unset, the CPU when pushes it to the stack sets these bits with 1.
      */
     private Boolean breakpointFlag = false;
 
@@ -118,7 +118,7 @@ public class Registers {
         p |= zeroFlag       ? 0b00000010 : 0;
         p |= interruptFlag  ? 0b00000100 : 0;
         p |= decimalFlag    ? 0b00001000 : 0;
-//        p |= breakpointFlag ? 0b00110000 : 0;
+        p |= breakpointFlag ? 0b00010000 : 0;
         p |= 0b00100000;
         p |= overflowFlag   ? 0b01000000 : 0;
         p |= negativeFlag   ? 0b10000000 : 0;

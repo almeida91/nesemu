@@ -1,5 +1,6 @@
 package nesemu.cpu;
 
+import nesemu.debug.Debugger;
 import nesemu.memory.NesMemory;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -34,9 +35,12 @@ public class InstructionCallTest {
     @Mock
     private Instruction instruction;
 
+    @Mock
+    private Debugger debugger;
+
     @Test
     public void runWithAbsoluteMode() {
-        InstructionCall call = new InstructionCall(registers, memory, instruction,
+        InstructionCall call = new InstructionCall(registers, memory, instruction, debugger,
                 AddressingMode.ABSOLUTE, MNEMONIC, OP_CODE, CYCLES, false);
 
         when(registers.incrementPcByTwoAddress()).thenReturn(INCREMENT_BY_TWO_ADDRESS_VALUE);
@@ -51,7 +55,7 @@ public class InstructionCallTest {
 
     @Test
     public void runWithAbsoluteXMode() {
-        InstructionCall call = new InstructionCall(registers, memory, instruction,
+        InstructionCall call = new InstructionCall(registers, memory, instruction, debugger,
                 AddressingMode.ABSOLUTE_X, MNEMONIC, OP_CODE, CYCLES, false);
 
         when(registers.incrementPcByTwoAddress()).thenReturn(INCREMENT_BY_TWO_ADDRESS_VALUE);
@@ -67,7 +71,7 @@ public class InstructionCallTest {
 
     @Test
     public void runWithAbsoluteYMode() {
-        InstructionCall call = new InstructionCall(registers, memory, instruction,
+        InstructionCall call = new InstructionCall(registers, memory, instruction, debugger,
                 AddressingMode.ABSOLUTE_Y, MNEMONIC, OP_CODE, CYCLES, false);
 
         when(registers.incrementPcByTwoAddress()).thenReturn(INCREMENT_BY_TWO_ADDRESS_VALUE);
@@ -83,7 +87,7 @@ public class InstructionCallTest {
 
     @Test
     public void runWithImmediateMode() {
-        InstructionCall call = new InstructionCall(registers, memory, instruction,
+        InstructionCall call = new InstructionCall(registers, memory, instruction, debugger,
                 AddressingMode.IMMEDIATE, MNEMONIC, OP_CODE, CYCLES, false);
 
         when(registers.incrementPc()).thenReturn(INCREMENT_PC_VALUE);
@@ -97,7 +101,7 @@ public class InstructionCallTest {
 
     @Test
     public void runWithIndirectMode() {
-        InstructionCall call = new InstructionCall(registers, memory, instruction,
+        InstructionCall call = new InstructionCall(registers, memory, instruction, debugger,
                 AddressingMode.INDIRECT, MNEMONIC, OP_CODE, CYCLES, false);
 
         when(registers.incrementPcByTwoAddress()).thenReturn(INCREMENT_BY_TWO_ADDRESS_VALUE);
@@ -113,7 +117,7 @@ public class InstructionCallTest {
 
     @Test
     public void runWithIndirectXMode() {
-        InstructionCall call = new InstructionCall(registers, memory, instruction,
+        InstructionCall call = new InstructionCall(registers, memory, instruction, debugger,
                 AddressingMode.INDIRECT_X, MNEMONIC, OP_CODE, CYCLES, false);
 
         when(registers.incrementPcByTwoAddress()).thenReturn(INCREMENT_BY_TWO_ADDRESS_VALUE);
@@ -130,7 +134,7 @@ public class InstructionCallTest {
 
     @Test
     public void runWithIndirectYMode() {
-        InstructionCall call = new InstructionCall(registers, memory, instruction,
+        InstructionCall call = new InstructionCall(registers, memory, instruction, debugger,
                 AddressingMode.INDIRECT_Y, MNEMONIC, OP_CODE, CYCLES, false);
 
         when(registers.incrementPcByTwoAddress()).thenReturn(INCREMENT_BY_TWO_ADDRESS_VALUE);
@@ -147,7 +151,7 @@ public class InstructionCallTest {
 
     @Test
     public void runWithRelativeMode() {
-        InstructionCall call = new InstructionCall(registers, memory, instruction,
+        InstructionCall call = new InstructionCall(registers, memory, instruction, debugger,
                 AddressingMode.RELATIVE, MNEMONIC, OP_CODE, CYCLES, false);
 
         when(registers.incrementPc()).thenReturn(INCREMENT_PC_VALUE);
@@ -162,7 +166,7 @@ public class InstructionCallTest {
 
     @Test
     public void runWithZeroPageMode() {
-        InstructionCall call = new InstructionCall(registers, memory, instruction,
+        InstructionCall call = new InstructionCall(registers, memory, instruction, debugger,
                 AddressingMode.ZERO_PAGE, MNEMONIC, OP_CODE, CYCLES, false);
 
         when(registers.incrementPc()).thenReturn(INCREMENT_PC_VALUE);
@@ -177,7 +181,7 @@ public class InstructionCallTest {
 
     @Test
     public void runWithZeroPageXMode() {
-        InstructionCall call = new InstructionCall(registers, memory, instruction,
+        InstructionCall call = new InstructionCall(registers, memory, instruction, debugger,
                 AddressingMode.ZERO_PAGE_X, MNEMONIC, OP_CODE, CYCLES, false);
 
         when(registers.incrementPc()).thenReturn(INCREMENT_PC_VALUE);
@@ -193,7 +197,7 @@ public class InstructionCallTest {
 
     @Test
     public void runWithZeroPageYMode() {
-        InstructionCall call = new InstructionCall(registers, memory, instruction,
+        InstructionCall call = new InstructionCall(registers, memory, instruction, debugger,
                 AddressingMode.ZERO_PAGE_Y, MNEMONIC, OP_CODE, CYCLES, false);
 
         when(registers.incrementPc()).thenReturn(INCREMENT_PC_VALUE);

@@ -28,4 +28,14 @@ public class ControlRegister {
 
         return control;
     }
+
+    public void set(int value) {
+        baseNameTable = value & 0b00000011;
+        incrementMode = (value & 0b00000010) != 0;
+        spritePatternTable = (value & 0b00000100) != 0;
+        backgroundPatternTable = (value & 0b00001000) != 0;
+        spriteSize = (value & 0b00010000) != 0;
+        masterSlaveSelect = (value & 0b00100000) != 0;
+        nmiEnable = (value & 0b10000000) != 0;
+    }
 }

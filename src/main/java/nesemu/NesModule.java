@@ -13,7 +13,10 @@ public class NesModule extends AbstractModule {
 
     @Override
     protected void configure() {
+        binder().requireExplicitBindings();
+
         bind(LaunchParameters.class).toInstance(launchParameters);
         bind(Debugger.class).to(PrintDebugger.class).asEagerSingleton();
+        bind(NES.class).asEagerSingleton();
     }
 }

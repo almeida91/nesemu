@@ -22,12 +22,14 @@ public class CpuModule extends AbstractModule {
     @Override
     @SneakyThrows
     protected void configure() {
-         instructionBinder = Multibinder.newSetBinder(binder(), Instruction.class);
+        binder().requireExplicitBindings();
 
-         binder().bind(Registers.class).asEagerSingleton();
-         binder().bind(Cpu.class).asEagerSingleton();
+        instructionBinder = Multibinder.newSetBinder(binder(), Instruction.class);
 
-         loadInstructions();
+        binder().bind(Registers.class).asEagerSingleton();
+        binder().bind(Cpu.class).asEagerSingleton();
+
+        loadInstructions();
     }
 
     @Provides

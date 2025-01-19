@@ -12,6 +12,8 @@ public class FileModule extends AbstractModule {
 
     @Override
     protected void configure() {
+        binder().requireExplicitBindings();
+
         bind(FileLoader.class).asEagerSingleton();
     }
 
