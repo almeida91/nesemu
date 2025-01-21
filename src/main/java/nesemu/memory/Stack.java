@@ -85,7 +85,7 @@ public class Stack {
     public String toString() {
         StringBuilder sb = new StringBuilder();
 
-        for (int i = 0; i < 0xFF; i++) {
+        for (int i = registers.getSp() - 1; i <= 0xFF; i++) {
             sb.append(String.format("%02X", memory.read8Bits(i + STACK_START))).append(" ");
         }
 

@@ -2,7 +2,6 @@ package nesemu.memory;
 
 import com.google.inject.Inject;
 import lombok.extern.slf4j.Slf4j;
-import nesemu.io.Controller;
 import nesemu.io.Input;
 import nesemu.ppu.Ppu;
 
@@ -85,7 +84,7 @@ public class NesMemory implements Memory {
             // TODO: apu registers
             value = 0;
         } else if (address < IO_UPPER_BOUND) {
-            return input.read(address);
+            return readController(address);
         } else if (address < APU_IO_TEST_MODE_ADDRESSES) {
             // TODO: IO/APU registers test mode
             value = 0;
@@ -122,6 +121,11 @@ public class NesMemory implements Memory {
      */
     @Override
     public void write8Bits(int address, int value) {
+        if (value == 0xB6) {
+            String message = "Wrote $B6 at $%04X".formatted(address);
+            log.debug(message);
+        }
+
         if (address <= RAM_UPPER_BOUND) {
             ram[address] = value;
         } else if (address <= MIRRORED_RAM_UPPER_BOUND) {
@@ -149,5 +153,16 @@ public class NesMemory implements Memory {
         }
 
         return mapper.readCpu(address);
+    }
+
+    /**
+     * Reads the controller's value at the provided address.
+     * It is also a special case as the controller's value is only 5 bits long, so it is masked with 0x1F and the open bus value is also masked.
+     *
+     * @param address
+     * @return
+     */
+    private int readController(int address) {
+        return (input.read(address) & 0x1F) | openBusValue;
     }
 }
