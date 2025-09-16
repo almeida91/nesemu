@@ -19,6 +19,7 @@ public class ReturnFromSubroutine implements Instruction {
 
     @Override
     public void run(int opCode, int address) {
-        registers.setPc(stack.pull16Bits() + 1);
+        int value = stack.pull16Bits();
+        registers.setPc(value + 1);
     }
 }

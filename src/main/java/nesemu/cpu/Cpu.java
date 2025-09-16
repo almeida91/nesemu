@@ -43,8 +43,9 @@ public class Cpu {
             try {
                 cycles = call.run();
             } catch (NullPointerException e) {
-                log.debug("Unknown opcode: {} at address {}", opcode, registers.getPc() - 1);
-                throw new RuntimeException(e);
+                String message = "Unknown opcode: $%02X at address $%04X".formatted(opcode, registers.getPc() - 1);
+                log.debug(message);
+                throw new RuntimeException(message, e);
             }
         } else {
             cycles--;
@@ -55,7 +56,7 @@ public class Cpu {
         halt = false;
 
         registers.reset();
-        registers.setPc(memory.read16Bits(registers.getPc()));
+        registers.setPc(0xC000);
     }
 
     public void irq() {

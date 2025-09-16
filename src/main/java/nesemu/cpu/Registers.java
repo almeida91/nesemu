@@ -149,7 +149,6 @@ public class Registers {
     }
 
     public int incrementPcByTwoAddress() {
-        int pc = this.pc;
         this.pc += 2;
         this.pc &= 0xFFFF;
         return pc;

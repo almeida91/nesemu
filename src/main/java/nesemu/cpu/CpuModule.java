@@ -5,6 +5,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.multibindings.Multibinder;
+import com.google.inject.name.Named;
 import lombok.SneakyThrows;
 import nesemu.debug.Debugger;
 import nesemu.memory.Memory;
@@ -14,6 +15,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class CpuModule extends AbstractModule {
 
@@ -79,6 +82,18 @@ public class CpuModule extends AbstractModule {
         }
 
         return instructionCallMap;
+    }
+
+    @Provides
+    @Singleton
+    @Named("instructionOpCodes")
+    public Set<Integer> provideInstructionOpcodes() {
+        Reflections reflections = new Reflections("nesemu.cpu.instructions");
+
+        return reflections.getSubTypesOf(Instruction.class).stream()
+                .flatMap(aClass -> Stream.of(getOpCodes(aClass)))
+                .map(opCode -> opCode.code())
+                .collect(Collectors.toSet());
     }
 
     private void loadInstructions() {
