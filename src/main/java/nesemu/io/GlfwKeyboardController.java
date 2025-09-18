@@ -1,6 +1,6 @@
 package nesemu.io;
 
-public class KeyboardController implements Controller {
+public class GlfwKeyboardController implements Controller {
 
     @Override
     public boolean checkPressed(ControllerKey key) {

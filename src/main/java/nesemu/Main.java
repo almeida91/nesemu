@@ -9,6 +9,8 @@ import nesemu.cpu.CpuModule;
 import nesemu.file.FileModule;
 import nesemu.memory.MemoryModule;
 import nesemu.ppu.PpuModule;
+import nesemu.window.Window;
+import nesemu.window.WindowModule;
 
 public class Main {
     public static void main(String[] args) {
@@ -18,6 +20,7 @@ public class Main {
 
         Injector injector = Guice.createInjector(
                 new NesModule(parameters),
+                new WindowModule(),
                 new FileModule(),
                 new CpuModule(),
                 new MemoryModule(),
@@ -26,6 +29,11 @@ public class Main {
         );
 
         NES nes = injector.getInstance(NES.class);
+        Window window = injector.getInstance(Window.class);
+        window.init();
+
         nes.loop();
+
+        window.destroy();
     }
 }

@@ -3,6 +3,7 @@ package nesemu;
 import com.google.inject.Inject;
 import nesemu.cpu.Cpu;
 import nesemu.ppu.Ppu;
+import nesemu.window.Window;
 
 public class NES {
 
@@ -11,18 +12,20 @@ public class NES {
 
     private int cpuCycleTime;
     private long  lastCpuCycleTime;
+    private Window window;
 
     @Inject
-    public NES(Cpu cpu, Ppu ppu) {
+    public NES(Cpu cpu, Ppu ppu, Window window) {
         this.cpu = cpu;
         this.ppu = ppu;
+        this.window = window;
         this.cpuCycleTime = 559; // nanoseconds
     }
 
     public void loop() {
         cpu.reset();
 
-        while (true) {
+        while (!window.shouldClose()) {
             long time = System.nanoTime();
             cycle(time);
         }
@@ -44,5 +47,6 @@ public class NES {
             }
         }
 
+        window.cycle();
     }
 }

@@ -9,6 +9,6 @@ public class IoModule extends AbstractModule {
         binder().requireExplicitBindings();
 
         bind(Input.class).asEagerSingleton();
-        bind(Controller.class).to(KeyboardController.class).asEagerSingleton();
+        bind(Controller.class).to(GlfwKeyboardController.class).asEagerSingleton();
     }
 }

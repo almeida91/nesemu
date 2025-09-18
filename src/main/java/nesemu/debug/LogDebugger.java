@@ -11,7 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 
 @AllArgsConstructor(onConstructor_ = @Inject)
 @Slf4j
-public class PrintDebugger implements Debugger {
+public class LogDebugger implements Debugger {
 
     private Memory memory;
 
