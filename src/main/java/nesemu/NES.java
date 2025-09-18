@@ -9,10 +9,10 @@ public class NES {
 
     private Cpu cpu;
     private Ppu ppu;
+    private Window window;
 
     private int cpuCycleTime;
     private long  lastCpuCycleTime;
-    private Window window;
 
     @Inject
     public NES(Cpu cpu, Ppu ppu, Window window) {
