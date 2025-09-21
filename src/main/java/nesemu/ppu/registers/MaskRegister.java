@@ -1,5 +1,10 @@
 package nesemu.ppu.registers;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class MaskRegister {
 
     private boolean greyscale;
